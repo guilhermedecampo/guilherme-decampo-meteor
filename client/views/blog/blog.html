@@ -1,0 +1,19 @@
+<template name="blog">
+  <div class="body" id="main_body">
+    <div class="wrapper">
+      <div class="article_wrapper">
+        <div class="primary_content_wrapper">
+          <div class="article_content">
+            {{{content}}}
+          </div>
+          <div id="disqus_thread"></div>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+        </div>
+      </div>
+    {{>sideBar}}
+    </div>
+  </div>
+
+</template>

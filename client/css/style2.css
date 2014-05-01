@@ -1,0 +1,394 @@
+/* =============================================================================
+   HTML5 display definitions
+   ========================================================================== */
+
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
+audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
+
+/* =============================================================================
+   Base
+   ========================================================================== */
+
+/*
+ * 1. Correct text resizing oddly in IE6/7 when body font-size is set using em units
+ * 2. Force vertical scrollbar in non-IE
+ * 3. Prevent iOS text size adjust on device orientation change, without disabling user zoom: h5bp.com/g
+ */
+
+html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+body { margin: 0; margin-top: 60px; font-size: 13px; line-height: 1.231; font-family: 'helvetica neue', sans-serif; background-color: #ECF1F2; color:#8494AD;}
+
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection declarations have to be separate
+ * Also: hot pink! (or customize the background color to match your design)
+ */
+
+::-moz-selection { background: #000; color: #fff; text-shadow: none; }
+::selection { background: #000; color: #fff; text-shadow: none; }
+
+.center { text-align: center;}
+/* =============================================================================
+   Links
+   ========================================================================== */
+
+a { color: #737C93; text-decoration: none; -webkit-transition:color 0.2s linear; -moz-transition:color 0.2s linear; }
+
+a:visited { color: #737C93; }
+
+a:hover { color: #b5b5b5; -webkit-transition:color 0.2s linear; -moz-transition:color 0.2s linear; }
+
+a:focus { outline: thin dotted; }
+
+/* Improve readability when focused and hovered in all browsers: h5bp.com/h */
+a:hover, a:active { outline: 0; }
+
+
+/* =============================================================================
+   Typography
+   ========================================================================== */
+
+@font-face {
+    font-family: 'entypo';
+    src: url('font/entypo.eot');
+    src: url('font/entypo.eot?#iefix') format('embedded-opentype'),
+         url('font/entypo.woff') format('woff'),
+         url('font/entypo.ttf') format('truetype'),
+         url('font/entypo.svg#entypo') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'entypo-social';
+    src: url('font/entypo-social.eot');
+    src: url('font/entypo-social.eot?#iefix') format('embedded-opentype'),
+         url('font/entypo-social.woff') format('woff'),
+         url('font/entypo-social.ttf') format('truetype'),
+         url('font/entypo-social.svg#entypo-social') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+p{ padding:0; font-size:1.1em; line-height:1.6em;}
+
+/* =============================================================================
+   Embedded content
+   ========================================================================== */
+
+/*
+ * 1. Improve image quality when scaled in IE7: h5bp.com/d
+ * 2. Remove the gap between images and borders on image containers: h5bp.com/e
+ */
+
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+
+
+/* =============================================================================
+   Main
+   ========================================================================== */
+
+header				      { height:60px; width:100%; background-color:#CBDBE0; overflow:hidden;top: 0;z-index: 2;position: fixed;display: block; }
+.header-wrapper     { width:1080px; height: 61px; margin: 0 auto }
+.main-name			    { font-weight:800; font-size:1.3em; letter-spacing:0.1em; height:40px; line-height:40px;  margin:auto; padding-top: 10px; float:left; padding-left: 10px;}
+.main-name a 		 	  { color:#40626b; }
+.main-name a:hover 	{ color:#477edb; }
+.blog               {float:right; padding-right: 10px;}
+article 			      { width:100%; position: inherit; display: block; }
+article p			      { margin-bottom:25px; }
+.container			    { margin:0 auto; padding:20px; max-width:1200px; }
+header .container	 	{ max-width:1200px; }
+footer .container	 	{ max-width:1200px; }
+
+.header-wrapper .social_media {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  float: right;
+  padding-right: 5px
+}
+
+.header-wrapper .social_media .social_link {
+  cursor: pointer;
+  width: 62px;
+  height: 61px;
+  display: inline-block;
+  float: right;
+  -webkit-box-shadow: inset -1px 0 0 #818cac,1px 0 0 #68718c,2px 0 0 #818cac;
+  -moz-box-shadow: inset -1px 0 0 #818cac,1px 0 0 #68718c,2px 0 0 #818cac;
+  box-shadow: inset -1px 0 0 #818cac,1px 0 0 #68718c,2px 0 0 #818cac
+}
+
+.header-wrapper .social_media .social_link.filler {
+  width: 1px;
+  background-position: -100 -100
+}
+
+.header-wrapper .social_media .social_link:not(.filler):hover {
+  box-shadow: none
+}
+
+.header-wrapper .social_media .social_link:not(.filler):hover+.social_link {
+  box-shadow: none
+}
+
+.header-wrapper .social_media .social_link.gplus:hover {
+  background: #dd4b39
+}
+
+.header-wrapper .social_media .social_link.facebook:hover {
+  background: #3b5998
+}
+
+.header-wrapper .social_media .social_link.twitter:hover {
+  background: #55acee
+}
+
+.header-wrapper .social_media .social_link:not(.filler)::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+
+  margin: 22px 22px
+}
+
+.header-wrapper .social_media .social_link.gplus::before {
+  background-position: 0 0
+}
+
+.header-wrapper .social_media .social_link.gplus:hover::before {
+  background-position: 0 -25px
+}
+
+.header-wrapper .social_media .social_link.facebook::before {
+  background-position: -30px 0
+}
+
+.header-wrapper .social_media .social_link.facebook:hover::before {
+  background-position: -30px -26px
+}
+
+.header-wrapper .social_media .social_link.twitter::before {
+  background-position: -57px 0
+}
+
+.header-wrapper .social_media .social_link.twitter:hover::before {
+  background-position: -57px -26px
+}
+
+/* =============================================================================
+   Main - Intro
+   ========================================================================== */
+
+#intro               { padding-top:100px; width:100%; padding-bottom:40px; font-family: 'entypo'; background-image: url('/teste.jpg'); background-repeat: no-repeat; background-attachment: scroll; background-clip: border-box; background-origin: padding-box; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; background-color:#c0c0c0;}
+#intro h1			       { font-size:2.0em; margin:0 auto; text-align:center; padding: 0 20px 0 20px; color:#fff;  }
+#intro .more h5		   { text-align:center; line-height:30px; color:#fff; margin-top:30px;  font-size:4.5em; }
+#intro .more h5:hover{ color:#477edb; }
+
+
+/* =============================================================================
+   Main - Project List
+   ========================================================================== */
+
+#project-list				{ margin:0 auto; font-family: 'entypo'; }
+#project-list .container { margin-top: 15px; }
+
+#project-list h3 			{
+  display:block;
+  margin-top:0;
+  color: rgb(92, 92, 92);
+  text-shadow: 1px 2px 5px #000;
+  text-align:center;
+  line-height:25px;
+  font-weight:400;
+  -moz-transition:color 0.2s linear;
+  -webkit-transition:color 0.2s linear;
+}
+
+#project-list h3:hover 	{ -moz-transition:color 0.2s linear; -webkit-transition:color 0.2s linear; }
+#project-list p          { text-align:center; margin: 0; color: #737c93;padding-top: 10px; height: 35px;}
+#project-list a {
+  display: block;
+  float: left;
+  margin: 0;
+  position: relative;
+  vertical-align: top;
+  width:25%;
+  margin-bottom: 10px;
+}
+
+
+.navButton > div {
+  border-radius: 50%;
+  width: 130px;
+  margin: 0 auto;
+  height: 130px;
+  text-shadow: 0px 0px 5px rgba(0,0,0,0.6);
+  box-shadow: inset 0px 0px 11px -1px black;
+  background: #ccc;
+}
+
+.navButton:hover > div {
+  border-radius: 50%;
+  width: 130px;
+  margin: 0 auto;
+  height: 130px;
+  text-shadow: 0px 0px 5px rgba(0,0,0,0.6);
+  box-shadow: inset 0px 0px 11px -1px black;
+  background: #477edb;
+}
+
+
+.second-image {
+  height: 200px;
+  width:  400px;
+  text-align: left;
+}
+
+/* =============================================================================
+   Main - Profile
+   ========================================================================== */
+
+#profile 		{ font-size:1.15em; line-height:1.6em; font-weight:400; }
+.brief-about{ font-weight:500; font-size:1.3em;padding-top:50px;width:100%; }
+aside       { text-align: right; }
+aside p     { font-size:1em; text-align: right; float: left; margin-top: 100px;}
+aside a			{ color:#000; }
+.avatar     { text-align: left; float: left;border-radius: 50%; margin-right: 30px;}
+.above {margin-top: 50px;}
+
+/* =============================================================================
+   Side - menu
+   ========================================================================== */
+
+
+.avatar-side    { text-align: left;border-radius: 50%;width:200px; text-align: center;}
+
+
+/* =============================================================================
+   Work - part
+   ========================================================================== */
+.work        { text-align: center; }
+.infografic  { width:80%; }
+
+/* =============================================================================
+   Idea - part
+   ========================================================================== */
+
+.idea    { text-align: center;border-radius: 20%;  }
+
+/* =============================================================================
+   Main - Footer
+   ========================================================================== */
+
+footer a		{ font-family: 'entypo-social'; color:#737c93;}
+footer ul 		{ padding:0; text-align:center; margin:0 auto; }
+footer li 		{ display:inline-block; margin-right:15px; }
+footer li a 		{ padding:5px; font-size:5.5em; }
+footer li:last-child 	{ margin:0; }
+#end			{ float:left; margin-top:10px; padding-bottom:25px; width:100%; }
+#email { text-align: center; font-size: 1.5em; color:#737c93;}
+
+/* =============================================================================
+   Project Page
+   ========================================================================== */
+
+/* Contain floats: h5bp.com/q */
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+/* ==|== media queries ======================================================
+   PLACEHOLDER Media Queries for Responsive Design.
+   These override the primary ('mobile first') styles
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (max-width: 545px) {
+  /* Style adjustments for viewports 480px and over go here */
+  #project-list a { width:100%; }
+  .avatar     { width: 150px; height: 150px;}
+  #email {  font-size: 1em; }
+  .header-wrapper     { width:auto; height: 61px;}
+}
+
+@media only screen and (min-width: 545px) {
+  .avatar     { width: 350px; height: 350px; }
+
+
+}
+
+@media only screen and (min-width: 1050px) {
+  .avatar     { width: 350px; height: 350px; }
+
+}
+
+
+/* ==|== print styles =======================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+  * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } /* Black prints faster: h5bp.com/s */
+  a, a:visited { text-decoration: underline; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }  /* Don't show links for images, or javascript/internal links */
+  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+  thead { display: table-header-group; } /* h5bp.com/t */
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page { margin: 0.5cm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+
+
+
+.polaroid {
+  position: relative;
+  width: 220px;
+  background-color: #fff;
+}
+
+.polaroid img {
+  border-bottom: 45px solid #fff;
+}
+
+.polaroid p {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  bottom: 0px;
+  color: #737c93;
+  font-size: 18px;
+}
+
+.polar {
+  width:100%;
+}
+
+
+.no {
+  background-color:#CBDBE0;
+  height: 30px;
+}
+
+.links-side {
+
+  margin:0;
+}
+
+.btn-subscribe {
+  border: 0;
+  background-color: #737C93;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fafafa;
+}

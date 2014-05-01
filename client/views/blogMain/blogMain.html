@@ -1,0 +1,19 @@
+<template name="blogMain">
+  <div class="body" id="main_body">
+    <div class="wrapper">
+      <div class="article_wrapper">
+        <div class="primary_content_wrapper">
+          <div class="article_content">
+            {{#each listPosts}}
+              <a href="blog/{{template}}"><h1>{{title}}</h1></a>
+              <p>{{description}}<a href="blog/{{template}}"> Read more...</a></p>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    {{>sideBar}}
+    </div>
+  </div>
+
+</template>
+
