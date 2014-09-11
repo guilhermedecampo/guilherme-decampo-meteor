@@ -1,0 +1,225 @@
+<template name="meteor-e-seguranca">
+<h1>Meteor & Segurança: Deixando as coisas bem claras</h1>
+
+<em>Artigo escrito por <a href="https://twitter.com/SachaGreif">@SachaGreif</a> um dos autores de <a href="http://www.discovermeteor.com">http://www.discovermeteor.com</a>.</em>
+
+<p>As primeiras impressões podem ser difíceis de mudar. Mas no caso do Meteor isso é bom e ruim.</p>
+
+<p>Quando o framework Meteor surgiu pela primeira vez, as pessoas ficaram deslumbradas com a facilidade com que você pode desenvolver e fazer deploy de uma aplicação realtime e reativa. Isso ainda é o que atrai muitos usuários para o framework.</p>
+
+<p>Mas, por outro lado, até hoje o Meteor sofre com a percepção de que o framework não é seguro. Outro dia, um amigo me disse que eles não escolheram Meteor na avaliação de tecnologias por causa de "questões de segurança inerente" do framework.</p>
+
+<p>Então, o que está acontecendo? Pode uma framework usado em produção por milhares de pessoas realmente ser "inerentemente inseguro"?</p>
+
+<p>Leia mais para descobrir por que este não é o caso, de onde esse equívoco originalmente surgiu, e - mais importante - como proteger seus aplicativos Meteor.</p>
+
+<h2>Voltando ao início</h2>
+
+<p>Vamos pular na nossa máquina do tempo e voltar a 11 de abril de 2012. O Framework Meteor acaba de ser lançado no Hacker News e causou um grande impacto, tornando-se um dos tópicos mais votados de todos os tempos.</p>
+
+<p>Citando o comentário mais votado:</p>
+
+<blockquote>Minha primeira impressão sobre isso: wow. Se Meteor é tudo o que parece ser, isso não é nada menos que revolucionário.</blockquote>
+
+<p>Claro que, sendo o Hacker News, algumas pessoas viram o anúncio com uma dose saudável de ceticismo:</p>
+
+<blockquote>Este não é revolucionária. É uma tentativa para embrulhar as coisas em um pacote mais amigável, e ao mesmo tempo fazendo algo terrivelmente inseguro como uma instalação padrão.</blockquote>
+
+<p>(Esse segundo "comentarista" então passa a dar primeiro vôo tripulado dos irmãos Wright como melhor exemplo de algo "revolucionário", que é, reconhecidamente, um padrão muito alto)</p>
+
+<p>Então, quem está certo? O comentário positivo e otimista, ou o negativo e cínico?</p>
+
+<p>Bem, que tal os dois?</p>
+
+<p>Então, a primeira versão demo do meteor Meteor ainda não suporta contas de usuário, de modo que você não tinha nenhuma maneira de restringir o acesso aos seus dados com base no usuário conectado.</p>
+
+<p>Tudo isso mudou cerca de seis meses depois, com a introdução do <a href="https://www.meteor.com/blog/2012/10/17/meteor-050-authentication-user-accounts-new-screencast">sistema de contas(package accounts)</a>.</p>
+
+<p>Mas para esses primeiros seis meses, qualquer pessoa que testasse Meteor seria como brincar com um protótipo alfa que absolutamente não foi feito para ser usado em qualquer lugar perto de um aplicativo de produção.</p>
+
+<p>Então, sim, a versão do protótipo era insegura, mas foi só porque a equipe Meteor não tinha chegado ainda a implementar essa faceta do framework ainda.</p>
+
+<h2>Padrões inseguros</h2>
+
+<p>Você acha que dois anos seria tempo suficiente para sacudir esse estigma, mas como eu disse, as primeiras impressões importam.</p>
+
+<p>Além do mais, há uma outra razão pela qual é fácil acreditar que aplicativos desenvolvidos em Meteor são inseguros: por padrão, qualquer novo aplicativo Meteor que você cria com o comando meteor myApp será inseguro.</p>
+
+<p>Você pode pensar que eu apenas desisti de meu próprio argumento, mas espere, não feche a aba do navegador ainda! A realidade é, na verdade, um pouco mais sutil do que isso, como tende a ser.</p>
+
+<p>Veja bem, os aplicativos Meteor recém criados ​​são inseguros por causa de dois pacotes, autopublish e insecure.</p>
+
+<p>O autopublish vai espelhar todo o conteúdo de seu banco de dados do lado do servidor para o cliente (embora seja inteligente o suficiente para fazer uma exceção para os tokens de senha e outras coisas realmente privadas).</p>
+
+<h2>Autopublish em ação</h2>
+
+<p>O insecure, por outro lado vai conceder qualquer cliente conectado o direito de modificar os dados no seu banco de dados, assim como se eles tivessem acesso ao servidor.</p>
+
+<p>Por que diabos você vai querer fazer uma coisa tão terrivelmente perigosa? Em uma palavra: prototipagem rápida.</p>
+
+<p>Bom OK, isso são duas palavras. Aqui está uma explicação mais detalhada dos docs Meteor:</p>
+
+<blockquote> Por padrão, um novo aplicativo Meteor inclui os pacotes autopublish e insecure, que juntos imitam o efeito de cada cliente ter acesso de leitura/gravação completo ao banco de dados do servidor. Estas são ferramentas de prototipagem úteis, mas normalmente não é adequado para aplicações de produção. Quando estiver pronto, basta remover os pacotes.</blockquote>
+
+<p>Os pacotes autopublish e insecure aceleraram bastante as fases iniciais de desenvolvimento de aplicativos. Precisa acessar alguns dados sobre o cliente? autopublish significa que algo como Posts.find() vai funcionar tranquilamente.</p>
+
+<p>E se você quiser adicionar dados, é tão fácil como Posts.insert({title: 'meu novo post'}) graças ao pacote insecure. E isso vai mesmo funcionar a partir do console do navegador, o que significa que você pode começar sem mesmo a construção de uma interface do usuário.</p>
+
+<p>Em outras palavras, adiantando as considerações sobre segurança para um próximo passo, esses dois pacotes fazem lado do navegador tão fácil de desenvolver como para o ambiente do servidor.</p>
+
+<h2>Responsabilidades do Desenvolvedor</h2>
+
+<p>Eu não culpo você, se você acha que a segurança deve ser levada em conta desde o primeiro passo. E, na verdade, agora que eu tenho mais experiência com Meteor, removo esses dois pacotes muito mais cedo no processo.</p>
+
+<p>Mas, na prática, autopublish e insecure raramente representam um risco de segurança: assim que você retirá-los, seu aplicativo irá simplesmente parar de funcionar até que você restabelecer os procedimentos adequados.</p>
+
+<p>Claro, coisas ruins podem acontecer se você não removê-los. Mas eu, pessoalmente, acredito que se você manter um pacote chamado "insecure" em um aplicativo de produção, você merece parte da culpa. Afinal, cada ambiente vem com seu próprio conjunto de responsabilidades para desenvolvedores, como <a href="http://xkcd.com/327/">XKCD famosa nos ensinou</a>.</p>
+
+<p>Ainda assim, talvez Meteor poderia fazer mais. Por exemplo, injetar uma pequena sobreposição de aviso no DOM do seu aplicativo quando o pacote insecure está ativo. Ou apenas mostre uma mensagem de aviso no seu terminal de saída cada vez que você executar o aplicativo.</p>
+
+<h2>Exibindo dados</h2>
+
+<p>No entanto, tudo isso ainda não nos diz como você faz um aplicativo Meteor seguro, uma vez que você tenha removido autopublish e insecure.</p>
+
+<p>Para responder a isso, vamos em primeiro lugar considerar a questão de exibir dados. Em outras palavras, como é que você tenha certeza que você não está compartilhando informações privadas com o mundo?</p>
+
+<p>Meteor faz isso através de um mecanismo conhecido como publicações. Tenho escrito muito sobre esse tema antes, então eu não vou extender, mas falando brevemente: publicações permitem especificar qual subconjunto do banco de dados deve ser acessível ao público.</p>
+
+<p>Vamos supor que você tem uma coleção de postagens em seu banco de dados. Você poderia:</p>
+
+<p><b>Publicar todas as mensagens:</b><p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">Posts</span><span class="p">.</span><span class="nx">find</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre>
+
+<p><b>Só publicar posts de um autor específico:</b></p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">author</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">Posts</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span><span class="na">author</span><span class="p">:</span> <span class="nx">author</span><span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+
+<p><b>Só publicar as 30 mensagens mais recentes:</b></p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">Posts</span><span class="p">.</span><span class="nx">find</span><span class="p">({},</span> <span class="p">{</span><span class="na">sort</span><span class="p">:</span> <span class="p">{</span><span class="na">timestamp</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span> <span class="na">limit</span><span class="p">:</span> <span class="p">{</span><span class="mi">30</span><span class="p">}});</span>
+<span class="p">});</span>
+</code></pre>
+
+<p><b>Excluir o campo timestamp de ser publicado:</b></p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">Posts</span><span class="p">.</span><span class="nx">find</span><span class="p">({},</span> <span class="p">{</span><span class="na">fields</span><span class="p">:</span> <span class="p">{</span><span class="na">timestamp</span><span class="p">:</span> <span class="mi">0</span><span class="p">}});</span>
+<span class="p">});</span>
+</code></pre>
+
+<p><b>Só publicar mensagens se um usuário está conectado:</b></p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s1">'posts'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">userId</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">Posts</span><span class="p">.</span><span class="nx">find</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>Você entendeu: Meteor lhe dá o controle refinado sobre cada pedaço dos dados que você publicar.</p>
+
+<p>Publicações permitem que você especifique o que é privado eo que é público</p>
+
+<h2>Gravação de dados com métodos</h2>
+
+<p>Então, nós vimos como Meteor lida com a exibição de dados. Mas e sobre a inserção, atualização e exclusão de documentos?</p>
+
+<p>Meteor tem duas principais formas de lidar com essas questões:  Methods e Allow/Deny.</p>
+
+<p>Methods do Meteor são como um controle remoto para seu servidor: eles permitem que você chamar métodos específicos pré-definidos a partir do cliente e executar o seu código no servidor.</p>
+
+<p>Por exemplo, aqui está como você define um método que registra qualquer string no terminal:</p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">methods</span><span class="p">({</span>
+  <span class="na">logString</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">myString</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myString</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>E aqui está como você pode chamá-lo de qualquer lugar em seu código de cliente (ou mesmo de dentro do console do navegador):</p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">'logString'</span><span class="p">,</span> <span class="s1">'hello world!'</span><span class="p">);</span>
+</code></pre>
+
+<p>Usando esse princípio, pode-se armazenar qualquer código em um método sensível e não se esqueça que estamos executando-o em ambiente controlado do servidor, em vez do mundo não confiável do cliente:</p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">methods</span><span class="p">({</span>
+  <span class="na">insertNewPost</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">myTitle</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">Posts</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span><span class="na">title</span><span class="p">:</span> <span class="nx">myTitle</span><span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>Que chamamos assim:</p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="s1">'insertNewPost'</span><span class="p">,</span> <span class="s1">'Lorem ipsum dolor sit amet.'</span><span class="p">);</span>
+</code></pre>
+
+<p>E uma vez que podemos confiar no ambiente de servidor, podemos facilmente adicionar verificações para várias propriedades do usuário:</p>
+
+<pre><code class="highlight javascript"><span class="nx">Meteor</span><span class="p">.</span><span class="nx">methods</span><span class="p">({</span>
+  <span class="na">insertNewPost</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">myTitle</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">Meteor</span><span class="p">.</span><span class="nx">user</span><span class="p">().</span><span class="nx">isAdmin</span><span class="p">){</span>
+      <span class="nx">Posts</span><span class="p">.</span><span class="nx">insert</span><span class="p">({</span><span class="na">title</span><span class="p">:</span> <span class="nx">myTitle</span><span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>Isso funciona muito bem, mas faz como que a conveniência de ser capaz de acionar as nossas operações de banco de dados bem no cliente se perca. Esse é o lugar onde Allow/Deny entra.</p>
+
+<h2>Gravação de dados com Allow/Deny</h2>
+
+<p>Allow e Deny são dois callbacks do lado do servidor que são executados para todas as operações de banco de dados insert, update ou remove.</p>
+
+<p>A operação só é permitida se:</p>
+
+<ul>
+  <li>Pelo menos um callback allow retorna true.</li>
+  <li>Nenhum callback deny retorna true.</li>
+</ul>
+
+<p>Isto significa que se você não escreveu nenhum callback allow, nenhuma operação de banco de dados terá permissão para passar a partir do cliente (assumindo, claro, que você já tenha removido o pacote inseguro).</p>
+
+<p>Aqui está o que um conjunto típico de callbacks allow (retirado do código de Microscope):</p>
+
+<pre><code class="highlight javascript"><span class="nx">Posts</span><span class="p">.</span><span class="nx">allow</span><span class="p">({</span>
+  <span class="na">update</span><span class="p">:</span> <span class="nx">ownsDocument</span><span class="p">,</span>
+  <span class="na">remove</span><span class="p">:</span> <span class="nx">ownsDocument</span>
+<span class="p">});</span>
+</code></pre>
+
+<p>Cada callback chama a função ownsDocument para verificar se o ID de usuário especificado é dono do documento:</p>
+
+<pre><code class="highlight javascript"><span class="nx">ownsDocument</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span> <span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">doc</span> <span class="o">&amp;&amp;</span> <span class="nx">doc</span><span class="p">.</span><span class="nx">userId</span> <span class="o">===</span> <span class="nx">userId</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Você vai perceber que nós não especificamos qualquer callback insert. Isso porque no Microscope um method Meteor lida com insert, mostrando que ambas as técnicas podem ser combinadas de acordo com suas necessidades.</p>
+
+<p>Falamos sobre Allow/Deny em mais detalhes no <a href="https://www.discovermeteor.com/">livro</a>, abordando temas como a ordem de chamada e casos de uso.</p>
+
+<h2>Pensando em Segurança</h2>
+
+<p>Quando se trata da web, seria difícil (e muito estúpido) para argumentar que a segurança não é importante.</p>
+
+<p>A equipe Meteor são plenamente consciente sobre isso, e é por isso que sempre fizeram da segurança uma prioridade. Cada nova versão traz seu próprio conjunto de melhorias de segurança, do browser-policy package, improved OAuth security ao better password encryption.</p>
+
+<p>Então, eu vou ser o primeiro a admitir que há muitas razões válidas para não usar Meteor. Mas eu sinceramente não acredito que "as questões de segurança inerentes" deve ser um deles.</p>
+
+<p>Artigo escrito por <a href="https://twitter.com/SachaGreif">@SachaGreif</a> um dos autores do livro Discover Meteor.</p>
+
+<p>Compre o pacote livro + videos + atualizações <a href="https://www.discovermeteor.com/">aqui</a>.</p>
+<p>Ou leia o livro em português <a href="http://pt.discovermeteor.com/">aqui</a>.</p>
+
+</template>
